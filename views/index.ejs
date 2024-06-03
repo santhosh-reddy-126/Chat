@@ -61,6 +61,7 @@
     <div class="code2">
         <h1 id="head">Enter a 6 Digit Code to join Chat</h1>
         <form id="code">
+            <input type="text" id="in2" placeholder="Name">
             <input type="text" id="in1" placeholder="code">
             <button>Submit</button>
         </form>
@@ -78,16 +79,19 @@
     <script>
         const socket = io();
         var code = "";
+        var name = "";
         const form1 = document.getElementById("code");
         const inp = document.getElementById("in1");
         const form2 = document.getElementById("message");
         const h1 = document.getElementById("head");
         const inp1 = document.getElementById("msg");
         const log = document.getElementById("log");
+        const inp2 = document.getElementById("in2");
         form1.addEventListener("submit",(e)=>{
             e.preventDefault();
             if(inp.value.length==6){
                 code=inp.value;
+                name=inp2.value;
                 form1.setAttribute("hidden","hidden");
                 form2.removeAttribute("hidden");
                 h1.innerHTML = "Let's Chat";
@@ -100,15 +104,16 @@
         form2.addEventListener("submit",(e)=>{
             e.preventDefault();
             if(inp1.value!==""){
-                socket.emit("chat",{code: code,msg: inp1.value});
+                socket.emit("chat",{code: code,msg: inp1.value,name: name});
                 
             }
         })
         socket.on("chat",(m)=>{
                     if(m.code==code){
                         const newE = document.createElement("h3");
-                        newE.innerHTML=m.msg;
+                        newE.innerHTML=m.name+": "+m.msg;
                         log.appendChild(newE)
+                        window.scrollTo(0, document.body.scrollHeight);
                     }  
         })
         
