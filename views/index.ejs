@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat app</title>
     <style>
-        body{
+        body {
             background-color: black;
             color: white;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
-        .code2{
+        .code2 {
             margin-left: auto;
             margin-right: auto;
             width: 50%;
@@ -21,7 +21,7 @@
             align-items: center;
             padding: 5px;
         }
-        button{
+        button {
             background-color: black;
             color: white;
             font-size: 15px;
@@ -29,7 +29,7 @@
             height: 32px;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
-        input{
+        input {
             border: 0px;
             width: 200px;
             height: 30px;
@@ -38,45 +38,31 @@
             font-weight: 900;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
-        h3{
+        h3 {
             text-align: left;
             background-color: white;
             color: black;
             font-size: 30px;
         }
-        #message{
+        #message {
             position: fixed;
             bottom: 0;
             width: 100%;
             display: flex;
             justify-content: space-evenly;
         }
-        #msg{
+        #msg {
             width: 1400px;
         }
-        #mb{
+        #mb {
             width: 100px;
         }
-        .butt{
+        .butt {
             width: 50%;
             margin-left: auto;
             margin-right: auto;
             display: flex;
             justify-content: center;
-        }
-        @media only screen and (max-width: 1125px) {
-            #head{
-                font-size: 20px;
-            }
-            .code{
-                height: 24px;
-                width: 150px;
-                font-size: 20px;
-            }
-            #cb{
-                height: 24px;
-                font-size: 15px;
-            }
         }
     </style>
 </head>
@@ -89,18 +75,13 @@
             <div class="butt">
                 <button id="cb">Submit</button>
             </div>
-            
         </form>
-        
-        
     </div>
-    <form id="message" hidden>
+    <form id="message" style="display: none;">
         <input type="text" id="msg" placeholder="Send a message">
         <button id="mb">Send=></button>
     </form>
-    <div id="log">
-        
-    </div>
+    <div id="log"></div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
@@ -113,36 +94,37 @@
         const inp1 = document.getElementById("msg");
         const log = document.getElementById("log");
         const inp2 = document.getElementById("in2");
-        form1.addEventListener("submit",(e)=>{
+
+        form1.addEventListener("submit", (e) => {
             e.preventDefault();
-            if(inp.value.length==6){
-                code=inp.value;
-                name=inp2.value;
-                form1.setAttribute("hidden","hidden");
-                form2.removeAttribute("hidden");
+            if (inp.value.length == 6) {
+                code = inp.value;
+                name = inp2.value;
+                form1.style.display = "none";
+                form2.style.display = "flex";
                 h1.innerHTML = "Let's Chat";
-                socket.emit("code",code);
-            }else{
-                alert("please enter a 6 digit code");
-                alert(inp.value.length)
+                socket.emit("code", code);
+            } else {
+                alert("Please enter a 6 digit code");
             }
-        })
-        form2.addEventListener("submit",(e)=>{
+        });
+
+        form2.addEventListener("submit", (e) => {
             e.preventDefault();
-            if(inp1.value!==""){
-                socket.emit("chat",{code: code,msg: inp1.value,name: name});
-                
+            if (inp1.value !== "") {
+                socket.emit("chat", { code: code, msg: inp1.value, name: name });
+                inp1.value = "";
             }
-        })
-        socket.on("chat",(m)=>{
-                    if(m.code==code){
-                        const newE = document.createElement("h3");
-                        newE.innerHTML=m.name+": "+m.msg;
-                        log.appendChild(newE)
-                        window.scrollTo(0, document.body.scrollHeight);
-                    }  
-        })
-        
+        });
+
+        socket.on("chat", (m) => {
+            if (m.code == code) {
+                const newE = document.createElement("h3");
+                newE.innerHTML = m.name + ": " + m.msg;
+                log.appendChild(newE);
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+        });
     </script>
 </body>
 </html>
