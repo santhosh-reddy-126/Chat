@@ -48,12 +48,35 @@
             position: fixed;
             bottom: 0;
             width: 100%;
+            display: flex;
+            justify-content: space-evenly;
         }
         #msg{
-            width: 90%;
+            width: 1400px;
         }
         #mb{
-            width: 8%;
+            width: 100px;
+        }
+        .butt{
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            justify-content: center;
+        }
+        @media only screen and (max-width: 1125px) {
+            #head{
+                font-size: 20px;
+            }
+            .code{
+                height: 24px;
+                width: 150px;
+                font-size: 20px;
+            }
+            #cb{
+                height: 24px;
+                font-size: 15px;
+            }
         }
     </style>
 </head>
@@ -61,9 +84,12 @@
     <div class="code2">
         <h1 id="head">Enter a 6 Digit Code to join Chat</h1>
         <form id="code">
-            <input type="text" id="in2" placeholder="Name">
-            <input type="text" id="in1" placeholder="code">
-            <button>Submit</button>
+            <input type="text" id="in2" class="code" placeholder="Name">
+            <input type="text" id="in1" class="code" placeholder="code"><br/><br/>
+            <div class="butt">
+                <button id="cb">Submit</button>
+            </div>
+            
         </form>
         
         
